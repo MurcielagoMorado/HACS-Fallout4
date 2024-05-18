@@ -7,7 +7,7 @@
 
 //method to find ideal string. return char array with most frequent chars per position.
 void findIdeal(int x, int y, char arr[x][y], char ideal[y]){
-	printf("analyzing...\t");
+	printf("\nanalyzing...\t");
 	int max, count;
 	char biggie;
 	/*
@@ -21,7 +21,7 @@ void findIdeal(int x, int y, char arr[x][y], char ideal[y]){
 			count=0;
 			//loop once more through rows to compare to "target".
 			for (int h=0; h<x; h++){
-				if (arr[h][j] == arr[i][j]){//match
+				if ((arr[h][j] == arr[i][j]) && (arr[h][j] != '\0')){//match
 					count++;
 					if (count > max){//new most common element
 						max = count;
@@ -36,36 +36,49 @@ void findIdeal(int x, int y, char arr[x][y], char ideal[y]){
 	ideal[y] ='\0';
 }
 
+
+void cull(int x, int y, int like, char array[x][y], char best[y]){
+	int count;
+	for (int i=0;i<x;i++){//word by word
+			count=0;
+			for (int j=0;j<y;j++){//letter by letter
+				if (array[i][j] == best[j]){
+					count++;
+				}
+			}
+			//after each word, cull word if count != likeness
+			if (count != like){
+				for (int j=0;j<y;j++){
+					array[i][j]='\0';
+				}
+			}
+		}
+}
+
+
 //method to find word of best fit vs. ideal. compare valid words to ideal and return winner.
-void matchIdeal(bool first, int x, int y, int like, char array[x][y], char ideal[y]){
+void matchIdeal(bool first, int x, int y, int like, char array[x][y], char ideal[y], char best[y]){
 	printf("comparing...");
 	int maxindex=0, count, biggie=0;
-	char buff[y], post[y];
-	//if not first time, cycle through like normal, but clear entries that !match like score.
 
-
-	for (int i=0;i<x;i++){	//loop row by row
+	for (int i=0;i<x;i++){	//loop word by word
 		count=0;
-		//printf("\n");
-		for (int j=0;j<y;j++){	//compare each row to Ideal
+		for (int j=0;j<y;j++){	//compare each letter to Ideal
 			if (array[i][j] == ideal[j]){
 				count++;	//give score for matches
-				//printf("!");
 				if (count > biggie){
 					biggie=count;
 					maxindex=i;
 				}
 			}
-			/*else
-				printf(".");*/
 		}
 	}
 	printf("\tdone! grabbing suggestion...");
 	for (int i=0;i<y;i++){
-		post[i] = array[maxindex][i];
+		best[i] = array[maxindex][i];
 	}
-	post[y] = '\0';
-	printf("\n\nTry entry %d : %s", maxindex+1, post); 	//winner gets printed
+	best[y] = '\0';
+	printf("\n\nTry entry %d : %s", maxindex+1, best); 	//winner gets printed
 }
 
 
@@ -85,7 +98,7 @@ int main() {
 	- otherwise, delete entries that have a different likeness score.
 	- repeat by finding a new Ideal String (looping while 'incorrect').
 	*/
-	int length=0, girth=0, n=0;
+	int length=0, girth=0, n=0, likeness;
 	bool done, first = true;
 
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -106,7 +119,7 @@ int main() {
 	}
 	girth = strlen(arr[0]);//grab length of words
 	//pass actual size of list into a bespoke array to do calcs.
-	char work[length][girth], ideal[girth];
+	char work[length][girth], ideal[girth], best[girth];
 	for (int i=0; i<length; i++){
 		strcpy(work[i], arr[i]);
 	}
@@ -114,13 +127,15 @@ int main() {
 	done=false;
 	while (!done){
 		findIdeal(length, girth, work, ideal);
-		//printf("back from func. result is %s", ideal);
-		matchIdeal(first, length, girth, 5, work, ideal);
+		matchIdeal(first, length, girth, likeness, work, ideal, best);
+		printf("\nWhat is the likeness score? \n(Enter \"999\"  if you've successfully accessed your system) :\t");
+		scanf("%d", &likeness);
+		cull(length, girth, likeness, work, best);
 		first = false;
-		done = true;
+		if (likeness == 999)
+			done = true;
 	}
-	//printf("done!");
-	//printf("%s", ideal);
+	printf("congratulations! Thank you for using our system.\nHave a splendiferous day!");
 	
 	
 
