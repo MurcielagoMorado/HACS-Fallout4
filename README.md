@@ -19,9 +19,9 @@ Any suggestion otherwise is intended only to provide appropriate theming to the 
 
 # TO-DO:
 - after suggesting the best guess, prompt user for likeness score and eliminate words that *cannot* be the keyword before repeating the process of finding the optimal string.
-- implement tie resolution.
+- implement tie resolution. - DONE
 - optimize space usage.
-- improve readability.
+- improve readability. - DONE
 - visual polish and finishing touches.
 
 # KNOWN ISSUES:
