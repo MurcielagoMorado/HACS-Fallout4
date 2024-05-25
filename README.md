@@ -18,8 +18,8 @@ Any suggestion otherwise is intended only to provide appropriate theming to the 
 - HACS will then choose the word which best matches the optimal string and output it as its suggested guess.
 
 # TO-DO:
-- after suggesting the best guess, prompt user for likeness score and eliminate words that *cannot* be the keyword before repeating the process of finding the optimal string.
-- implement tie resolution. - DONE
+- after suggesting the best guess, prompt user for likeness score and eliminate words that *cannot* be the keyword before repeating the process of finding the optimal string. - DONE
+- implement tie resolution.
 - optimize space usage.
 - improve readability. - DONE
 - visual polish and finishing touches.
