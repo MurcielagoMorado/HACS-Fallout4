@@ -1,5 +1,8 @@
 # This code is meant to assist with Fallout 3 and 4's hacking minigame.
 
+# Getting Started
+Just download and run the HACS-final.exe file, and it'll prompt you through how it works!
+
 # the minigame works as follows:
 - a random word is chosen as the correct keyword, with its difficulty affecting the length of the word.
 - a list of words with equal length are generated, shuffled along with the keyword, and presented to the player.
